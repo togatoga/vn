@@ -12,7 +12,7 @@ def cmd():
 @click.option("--from", "-f", 'frm', default="jpn")
 @click.option("--dest", "-d", 'dst', default="eng")
 @click.argument('phrase')
-def search(phrase, frm, dst):
+def translate(phrase, frm, dst):
     # text is japanese
     if is_japanese(phrase):
         frm = 'jpn'
@@ -21,7 +21,6 @@ def search(phrase, frm, dst):
         frm = 'eng'
         dst = 'jpn'
     api = Glosbe(frm, dst)
-    
     print ("translate... %s from %s to %s" % (crayons.red(phrase), crayons.blue(frm), crayons.blue(dst)))
     api.translate(phrase)
     print ('-------------------------Result-------------------------')
