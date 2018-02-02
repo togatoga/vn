@@ -10,11 +10,11 @@ def cmd():
     pass
 
 @cmd.command(help="translate [phrase]")
-@click.argument('phrase', required=False, help='phrase to be translated')
+@click.argument('phrase', required=False)
 @click.option("--interactive", "-i", is_flag=True, help='interactive mode')
-@click.option("--from", "-f", 'frm', default="jpn", help='language of phrase to translate, values: ISO 693-3 three letter language code,')
-@click.option("--dest", "-d", 'dst', default="eng", help=' destination language, values: ISO 693-3 three letter language code')
-@click.option("--limit", "-l", "limit", default=10, limit='output limit')
+@click.option("--from", "-f", 'frm', default="jpn", help='language of phrase to translate, values: ISO 693-3 three letter language code')
+@click.option("--dest", "-d", 'dst', default="eng", help='destination language, values: ISO 693-3 three letter language code')
+@click.option("--limit", "-l", "limit", default=10, help='output limit')
 def translate(interactive, phrase, frm, dst, limit):
     if interactive:
         click.echo(':q quit')
