@@ -20,20 +20,22 @@ class Glosbe(object):
             params['tm'] = True
         r = requests.get(BASE_URL.format("translate"), params=params)
         if r.status_code != 200:
-            return 
+            return
         return r.json()
     def translate(self, phrase, tm=False):
         json = self._translate(phrase, tm)
         if not json['result'] == 'ok':
-            return 
+            return
         self.result = json
-    def show_translation(self, limit=5):
-        cnt = 0
-        
+    def show_translation(self, limit):
+        cnt = 1
         for translation in self.result['tuc']:
+            print (crayons.magenta(cnt))
             if 'phrase' in translation:
-                print (crayons.blue("DEF:"), crayons.green(translation['phrase']['text']))
+                print (crayons.red("Translate:"), crayons.white(translation['phrase']['text']))
                 cnt += 1
-            if cnt >= limit:
+            if 'meanings' in translation:
+                for meaning in translation['meanings']:
+                    print (crayons.blue("Meaning:"), crayons.white(meaning['text']))
+            if cnt > limit:
                 break
-

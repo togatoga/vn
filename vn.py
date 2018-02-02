@@ -11,20 +11,19 @@ def cmd():
 @cmd.command(help="A simple translation tool in terminal.")
 @click.option("--from", "-f", 'frm', default="jpn")
 @click.option("--dest", "-d", 'dst', default="eng")
+@click.option("--limit", "-l", "limit", default=10)
 @click.argument('phrase')
-def translate(phrase, frm, dst):
+def translate(phrase, frm, dst, limit):
     # text is japanese
     if is_japanese(phrase):
         frm = 'jpn'
         dst = 'eng'
-    else:
-        frm = 'eng'
-        dst = 'jpn'
+
     api = Glosbe(frm, dst)
     print ("translate... %s from %s to %s" % (crayons.red(phrase), crayons.blue(frm), crayons.blue(dst)))
     api.translate(phrase)
-    print ('-------------------------Result-------------------------')
-    api.show_translation()
+    print (crayons.blue('-------------------------Result-------------------------'))
+    api.show_translation(limit)
 
 def main():
     cmd()
