@@ -30,7 +30,6 @@ class Glosbe(object):
     def show_translation(self, limit):
         cnt = 1
         for translation in self.result['tuc']:
-            print (crayons.magenta(cnt))
             if 'phrase' in translation:
                 print (crayons.red("Translate:"), crayons.white(translation['phrase']['text']))
                 cnt += 1

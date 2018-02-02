@@ -3,27 +3,50 @@ import click
 from util import is_japanese
 from glosbe import Glosbe
 import crayons
+from prompt_toolkit import prompt
 
 @click.group()
 def cmd():
     pass
 
-@cmd.command(help="A simple translation tool in terminal.")
+@cmd.command(help="translate [phrase]")
+@click.argument('phrase', required=False)
+@click.option("--interactive", "-i", is_flag=True, help='interactive mode')
 @click.option("--from", "-f", 'frm', default="jpn")
 @click.option("--dest", "-d", 'dst', default="eng")
 @click.option("--limit", "-l", "limit", default=10)
-@click.argument('phrase')
-def translate(phrase, frm, dst, limit):
+def translate(interactive, phrase, frm, dst, limit):
+    if interactive:
+        click.echo(':q quit')
+        while (True):
+            phrase = prompt("> ")
+            if phrase == ':q':
+                break
+            if phrase == '' or phrase == None:
+                click.echo('empty phrase')
+            result = _translate(phrase, frm, dst)
+            result.show_translation(limit=limit)
+    else:
+        if phrase == '' or phrase == None:
+            click.echo('empty phrase')
+            exit(1)
+        result = _translate(phrase, frm, dst)
+        result.show_translation(limit=limit)
+
+
+def _translate(phrase, frm, dst):
     # text is japanese
     if is_japanese(phrase):
         frm = 'jpn'
         dst = 'eng'
+    else:
+        frm = 'eng'
+        dst = 'jpn'
 
     api = Glosbe(frm, dst)
-    print ("translate... %s from %s to %s" % (crayons.red(phrase), crayons.blue(frm), crayons.blue(dst)))
+    click.echo("translate... %s from %s to %s" % (crayons.red(phrase), crayons.blue(frm), crayons.blue(dst)))
     api.translate(phrase)
-    print (crayons.blue('-------------------------Result-------------------------'))
-    api.show_translation(limit)
+    return api
 
 def main():
     cmd()
