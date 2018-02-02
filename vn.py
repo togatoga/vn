@@ -24,6 +24,7 @@ def translate(interactive, phrase, frm, dst, limit):
                 break
             if phrase == '' or phrase == None:
                 click.echo('empty phrase')
+                continue
             result = _translate(phrase, frm, dst)
             result.show_translation(limit=limit)
     else:
