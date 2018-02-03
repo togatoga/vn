@@ -19,7 +19,7 @@ def translate(interactive, phrase, frm, dst, limit):
     if interactive:
         click.echo(':q quit')
         while (True):
-            phrase = prompt("> ")
+            phrase = prompt("[vn] > ")
             if phrase == ':q':
                 break
             if phrase == '' or phrase == None:
