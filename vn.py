@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import click
-from util import is_japanese
+from util import is_japanese,get_synonyms
 from glosbe import Glosbe
 import crayons
 from prompt_toolkit import prompt
@@ -35,8 +35,10 @@ def translate(interactive, phrase, frm, dst, limit):
                 continue
             result = _translate(phrase, frm, dst)
             translations = result.get_translations()
+            synonyms = get_synonyms(phrase)
             examples = result.get_examples()
             print_translations(translations, limit)
+            
             print_examples(examples, frm, dst)
     else:
         if phrase == '' or phrase == None:
@@ -49,15 +51,24 @@ def translate(interactive, phrase, frm, dst, limit):
             frm = 'eng'
             dst = 'jpn'
         result = _translate(phrase, frm, dst)
+        synonyms = get_synonyms(phrase)
         translations = result.get_translations()
+        
         examples = result.get_examples()
     print_translations(translations, limit)
+    print_synonyms(synonyms)
     print_examples(examples, frm, dst)
 
 
-
+def print_synonyms(synonyms):
+    if len(synonyms) == 0:
+        return 
+    print ("Synonyms:")
+    print ("\t - ", ", ".join(synonyms))
 
 def print_examples(examples, frm, dst, limit=5):
+    if len(examples) == 0:
+        return 
     print (crayons.white("Example:"))
     for i, example in enumerate(examples):
         example = list(map(lambda x: BeautifulSoup(x, "lxml").get_text(), example))
@@ -72,6 +83,8 @@ def print_examples(examples, frm, dst, limit=5):
         print()
 
 def print_translations(translations, limit):
+    if len(translations) == 0:
+        return 
     print (crayons.white("Translation:"))
     for i, translation in enumerate(translations):
         print (crayons.white("\t - {}".format(translation)))
