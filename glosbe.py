@@ -1,6 +1,7 @@
 import requests
 import pprint
 import crayons
+
 BASE_URL = "https://glosbe.com/gapi/{}"
 
 class Glosbe(object):
@@ -27,14 +28,21 @@ class Glosbe(object):
         if not json['result'] == 'ok':
             return
         self.result = json
-    def show_translation(self, limit):
-        cnt = 1
+    def get_translations(self):
+        translations = []
+        values = set()
         for translation in self.result['tuc']:
             if 'phrase' in translation:
-                print (crayons.red("Translate:"), crayons.white(translation['phrase']['text']))
-                cnt += 1
-            if 'meanings' in translation:
-                for meaning in translation['meanings']:
-                    print (crayons.blue("Meaning:"), crayons.white(meaning['text']))
-            if cnt > limit:
-                break
+                if translation['phrase']['text'] in values:
+                    continue
+                values.add(translation['phrase']['text'])
+                translations.append(translation['phrase']['text'])
+        return translations
+
+    def get_examples(self):
+        examples = []
+        for example in self.result['examples']:
+            examples.append([example['first'], example['second']])
+        return examples
+        
+            
