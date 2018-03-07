@@ -57,6 +57,8 @@ Translation:
          - 忠義
          - 真心
          - 精進
+Synonyms:
+         -  devotion, devotedness, idolatry, veneration, cultism
 Example:
         ENG - She was inspired by the trust of the blind man and the devoted love of his friend.
         JPN - そしてその選手の信頼と,友人の献身的な愛に心を動かされました。
