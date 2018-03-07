@@ -1,14 +1,19 @@
 #!/usr/bin/env python
+
 import click
-from util import is_japanese,get_synonyms
-from glosbe import Glosbe
+
 import crayons
 from prompt_toolkit import prompt
 from bs4 import BeautifulSoup
 
+from vn.util import is_japanese,get_synonyms
+from vn.glosbe import Glosbe
+
+
 @click.group()
 def cmd():
     pass
+
 
 @cmd.command(help="translate [phrase]")
 @click.argument('phrase', required=False)
@@ -17,7 +22,7 @@ def cmd():
 @click.option("--dest", "-d", 'dst', default="eng", help='destination language, values: ISO 693-3 three letter language code')
 @click.option("--limit", "-l", "limit", default=10, help='output limit')
 def translate(interactive, phrase, frm, dst, limit):
-    
+
     if interactive:
         click.echo(':q quit')
         while (True):
@@ -38,7 +43,7 @@ def translate(interactive, phrase, frm, dst, limit):
             synonyms = get_synonyms(phrase)
             examples = result.get_examples()
             print_translations(translations, limit)
-            print_synonyms(synonyms)            
+            print_synonyms(synonyms)
             print_examples(examples, frm, dst)
     else:
         if phrase == '' or phrase == None:
@@ -53,7 +58,7 @@ def translate(interactive, phrase, frm, dst, limit):
         result = _translate(phrase, frm, dst)
         synonyms = get_synonyms(phrase)
         translations = result.get_translations()
-        
+
         examples = result.get_examples()
     print_translations(translations, limit)
     print_synonyms(synonyms)
@@ -62,13 +67,13 @@ def translate(interactive, phrase, frm, dst, limit):
 
 def print_synonyms(synonyms):
     if len(synonyms) == 0:
-        return 
+        return
     print ("Synonyms:")
     print ("\t - ", ", ".join(synonyms))
 
 def print_examples(examples, frm, dst, limit=5):
     if len(examples) == 0:
-        return 
+        return
     print (crayons.white("Example:"))
     for i, example in enumerate(examples):
         example = list(map(lambda x: BeautifulSoup(x, "lxml").get_text(), example))
@@ -84,14 +89,13 @@ def print_examples(examples, frm, dst, limit=5):
 
 def print_translations(translations, limit):
     if len(translations) == 0:
-        return 
+        return
     print (crayons.white("Translation:"))
     for i, translation in enumerate(translations):
         print (crayons.white("\t - {}".format(translation)))
         if i > limit:
             break
-        
-    
+
 
 def _translate(phrase, frm, dst):
     api = Glosbe(frm, dst)
