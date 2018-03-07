@@ -11,6 +11,7 @@ cd vn
 docker build -t vn .
 
 alias vn="docker run -it --rm vn python vn.py"
+alias vni="docker run -it --rm vn python vn.py translate --interactive"
 alias vnt="docker run -it --rm vn python vn.py translate $*"
 
 ```
