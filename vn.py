@@ -38,7 +38,7 @@ def translate(interactive, phrase, frm, dst, limit):
             synonyms = get_synonyms(phrase)
             examples = result.get_examples()
             print_translations(translations, limit)
-            
+            print_synonyms(synonyms)            
             print_examples(examples, frm, dst)
     else:
         if phrase == '' or phrase == None:
