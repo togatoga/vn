@@ -12,9 +12,9 @@ git clone https://github.com/togatoga/vn
 cd vn
 docker build -t vn .
 
-alias vn="docker run -it --rm vn python cmd.py"
-alias vni="docker run -it --rm vn python cmd.py translate --interactive"
-alias vnt="docker run -it --rm vn python cmd.py translate $*"
+alias vn="docker run -it --rm vn vn"
+alias vni="docker run -it --rm vn vn translate --interactive"
+alias vnt="docker run -it --rm vn vn translate $*"
 ```
 
 ### Usage
@@ -24,7 +24,7 @@ if you type Japanese word, vn translate word to English(Japanese -> English) and
 #### Translate
 
 ```bash
-% python vn.py translate 不労所得
+% vn translate 不労所得
 translate... 不労所得 from jpn to eng
 Translation:
          - unearned income
@@ -42,7 +42,7 @@ Example:
 
 ##### Interactive Mode
 ```bash
-% python vn.py translate -i
+% vn translate -i
 :q quit
 [vn] > devotion
 translate... devotion from eng to jpn
