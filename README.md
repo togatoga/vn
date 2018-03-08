@@ -2,7 +2,9 @@
 vn is terminal tool to help people learn English
 
 ## Install
-
+```bash
+pip install git+https://github.com/togatoga/vn.git  # or pipsi install
+```
 ### Docker
 
 ```bash
@@ -10,10 +12,9 @@ git clone https://github.com/togatoga/vn
 cd vn
 docker build -t vn .
 
-alias vn="docker run -it --rm vn python vn.py"
-alias vni="docker run -it --rm vn python vn.py translate --interactive"
-alias vnt="docker run -it --rm vn python vn.py translate $*"
-
+alias vn="docker run -it --rm vn python cmd.py"
+alias vni="docker run -it --rm vn python cmd.py translate --interactive"
+alias vnt="docker run -it --rm vn python cmd.py translate $*"
 ```
 
 ### Usage
